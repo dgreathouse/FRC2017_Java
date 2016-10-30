@@ -1,6 +1,8 @@
 
 package org.usfirst.frc.team6193.robot;
 
+import org.usfirst.frc.team6193.robot.subsystems.Driveline;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -12,8 +14,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
-
+public class Robot extends IterativeRobot 
+{
+	/* Create an global static reference to the Driveline subsystem */
+	public static Driveline driveline;
 	public static OI oi;
 
 
@@ -21,7 +25,10 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
+    public void robotInit() 
+    {
+    	/* Create a instance of the Driveline class and call it driveline */
+    	driveline = new Driveline();
 		oi = new OI();
     }
 	
@@ -38,15 +45,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 	}
 
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
-	 */
+
     public void autonomousInit() {
 
     }
