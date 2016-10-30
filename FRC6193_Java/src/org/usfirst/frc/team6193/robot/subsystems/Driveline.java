@@ -1,5 +1,6 @@
 package org.usfirst.frc.team6193.robot.subsystems;
 
+import org.usfirst.frc.team6193.robot.Robot;
 import org.usfirst.frc.team6193.robot.RobotMap;
 import org.usfirst.frc.team6193.robot.commands.DrivelineDefaultCommand;
 
@@ -13,7 +14,6 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
  */
 public class Driveline extends PIDSubsystem {
 
-	private Joystick m_stickXbox;
 	private RobotDrive m_robotDrive;
 	private CANTalon m_leftFrontMotorController;
 	private CANTalon m_rightFrontMotorController;
@@ -23,7 +23,7 @@ public class Driveline extends PIDSubsystem {
     public Driveline() 
     {
     	super(1.0,0.0,0.0,0.02,0.0);
-    	m_stickXbox = new Joystick(0);
+
 		m_leftFrontMotorController = new CANTalon(RobotMap.LEFT_FRONT_CONTROLLER_CANID);
 		m_leftRearMotorController = new CANTalon(RobotMap.LEFT_REAR_CONTROLLER_CANID);
 		m_rightRearMotorController = new CANTalon(RobotMap.RIGHT_REAR_CONTROLLER_CANID);
@@ -42,7 +42,7 @@ public class Driveline extends PIDSubsystem {
         setDefaultCommand(new DrivelineDefaultCommand());
     }
 	public void Drive() {
-		m_robotDrive.arcadeDrive(getY(m_stickXbox), m_stickXbox.getX() * RobotMap.DRIVELINE_TURN_SCALAR);
+		m_robotDrive.arcadeDrive(getY(Robot.oi.stickXbox), Robot.oi.stickXbox.getX() * RobotMap.DRIVELINE_TURN_SCALAR);
 	}
     protected double returnPIDInput() {
 
