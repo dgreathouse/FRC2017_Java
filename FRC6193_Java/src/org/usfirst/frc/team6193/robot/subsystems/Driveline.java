@@ -43,7 +43,7 @@ public class Driveline extends PIDSubsystem {
 		
 		gyro = new ADXRS450_Gyro();
 		
-		m_drivelinePIDMode = DrivelinePIDMode.DRIVE; 
+		m_drivelinePIDMode = DrivelinePIDMode.MOVE; 
     }
     
     public void initDefaultCommand() {
@@ -53,11 +53,19 @@ public class Driveline extends PIDSubsystem {
 	public void Drive() {
 		m_robotDrive.arcadeDrive(getY(Robot.oi.stickXbox), Robot.oi.stickXbox.getX() * RobotMap.DRIVELINE_TURN_SCALAR);
 	}
+	/** Drive the robot with move and rotate commands
+	 * 
+	 * @param move
+	 * @param rotate
+	 */
 	public void Drive(double move, double rotate) {
 		m_robotDrive.arcadeDrive(move,rotate);
 	}
+	public void DriveMagnitudeCurve(double magnitude, double curve){
+		m_robotDrive.drive(magnitude, curve);
+	}
     protected double returnPIDInput() {
-    	if(RobotMap.Driveline_PID_Mode == DrivelinePIDMode.DRIVE){
+    	if(m_drivelinePIDMode == DrivelinePIDMode.MOVE){
     		return m_rightFrontMotorController.getEncPosition() * RobotMap.DRIVELINE_ENCODER_INCHPERCNT;
     	}else {
     		gyro.getAngle();
@@ -66,7 +74,7 @@ public class Driveline extends PIDSubsystem {
     }
     
     protected void usePIDOutput(double output) {
-    	if(RobotMap.Driveline_PID_Mode == DrivelinePIDMode.DRIVE){
+    	if(m_drivelinePIDMode == DrivelinePIDMode.MOVE){
     		Drive(output,0.0);
     	}else {
     		Drive(0.0,output);

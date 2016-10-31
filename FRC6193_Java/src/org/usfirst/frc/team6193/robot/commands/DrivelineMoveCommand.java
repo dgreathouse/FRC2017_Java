@@ -8,17 +8,27 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DrivelineDriveCommand extends Command {
-	double m_distance = 0.0;
-	double m_maxTimeout = 0.0;
-	double m_speed = 0.0;
-	double m_percentTolerance = 0.0;
-	double m_p = 0.0;
-	double m_i = 0.0;
-	double m_d = 0.0;
-	double m_f = 0.0;
-	
-    public DrivelineDriveCommand(double distance, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
+public class DrivelineMoveCommand extends Command {
+	private double m_distance = 0.0;
+	private double m_maxTimeout = 0.0;
+	private double m_speed = 0.0;
+	private double m_percentTolerance = 0.0;
+	private double m_p = 0.0;
+	private double m_i = 0.0;
+	private double m_d = 0.0;
+	private double m_f = 0.0;
+	/**
+	 * 
+	 * @param distance Distance to drive in inches
+	 * @param speed The speed to drive at from -1.0 to 1.0
+	 * @param timeout A timeout if distance not reached
+	 * @param percentTolerance See formula of PIDController percent tolerance
+	 * @param p Proportional
+	 * @param i Integral
+	 * @param d Derivative
+	 * @param f Feed Forward
+	 */
+    public DrivelineMoveCommand(double distance, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
     	m_distance = distance;
     	m_maxTimeout = timeout;
     	m_speed = speed;
@@ -37,7 +47,7 @@ public class DrivelineDriveCommand extends Command {
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
     	Robot.driveline.setSetpoint(m_distance);
-    	Robot.driveline.setPIDMode(DrivelinePIDMode.DRIVE, m_p, m_i, m_d, m_f);
+    	Robot.driveline.setPIDMode(DrivelinePIDMode.MOVE, m_p, m_i, m_d, m_f);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -47,7 +57,11 @@ public class DrivelineDriveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+    	if(timeSinceInitialized() > m_maxTimeout || Robot.driveline.onTarget()){
+    		return true;
+    	}else {
+    		return false;
+    	}
     }
 
     // Called once after isFinished returns true

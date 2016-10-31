@@ -29,7 +29,7 @@ public class RobotMap {
     public static double DRIVELINE_TURN_PID_D = 0.05;
     public static double DRIVELINE_TURN_PID_F = 0.25;
     
-    public static DrivelinePIDMode Driveline_PID_Mode = DrivelinePIDMode.DRIVE;
+    public static DrivelinePIDMode Driveline_PID_Mode = DrivelinePIDMode.MOVE;
 
     
 }

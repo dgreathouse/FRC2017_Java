@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team6193.robot;
 
+import org.usfirst.frc.team6193.robot.commandGroups.AutonomousCommandGroup;
 import org.usfirst.frc.team6193.robot.subsystems.Driveline;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -61,7 +62,9 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void autonomousInit() {
-
+		int index = (int)SmartDashboard.getNumber("AutoplayIndex", 0);
+		AutonomousCommandGroup ACG = new AutonomousCommandGroup(index);
+		ACG.start();
 	}
 
 	/**
