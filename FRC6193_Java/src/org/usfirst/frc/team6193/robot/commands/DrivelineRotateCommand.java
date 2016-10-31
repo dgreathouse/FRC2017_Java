@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class DrivelineRotateCommand extends Command {
-	private double m_distance = 0.0;
+	private double m_angle = 0.0;
 	private double m_maxTimeout = 0.0;
 	private double m_speed = 0.0;
 	private double m_percentTolerance = 0.0;
@@ -18,8 +18,8 @@ public class DrivelineRotateCommand extends Command {
 	private double m_d = 0.0;
 	private double m_f = 0.0;
 	
-    public DrivelineRotateCommand(double distance, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
-    	m_distance = distance;
+    public DrivelineRotateCommand(double angle, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
+    	m_angle = angle;
     	m_maxTimeout = timeout;
     	m_speed = speed;
     	m_percentTolerance = percentTolerance;
@@ -33,10 +33,10 @@ public class DrivelineRotateCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveline.setInputRange(-m_distance, m_distance);
+    	Robot.driveline.setInputRange(-m_angle, m_angle);
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
-    	Robot.driveline.setSetpoint(m_distance);
+    	Robot.driveline.setSetpoint(m_angle);
     	Robot.driveline.setPIDMode(DrivelinePIDMode.ROTATE, m_p, m_i, m_d, m_f);
     }
 
