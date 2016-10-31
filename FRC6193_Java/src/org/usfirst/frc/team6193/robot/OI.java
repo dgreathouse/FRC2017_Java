@@ -10,5 +10,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
  */
 public class OI {
 	public Joystick stickXbox = new Joystick(0);
+	
+	
 }
 
