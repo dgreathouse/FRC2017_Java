@@ -61,6 +61,11 @@ public class Driveline extends PIDSubsystem {
 	public void Drive(double move, double rotate) {
 		m_robotDrive.arcadeDrive(move,rotate);
 	}
+	/**
+	 * 
+	 * @param magnitude
+	 * @param curve
+	 */
 	public void DriveMagnitudeCurve(double magnitude, double curve){
 		m_robotDrive.drive(magnitude, curve);
 	}
