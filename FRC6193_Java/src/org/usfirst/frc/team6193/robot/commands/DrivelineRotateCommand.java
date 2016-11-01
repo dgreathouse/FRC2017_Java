@@ -6,7 +6,7 @@ import org.usfirst.frc.team6193.robot.lib.DrivelinePIDMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This class will rotate the robot using a PID control method.
  */
 public class DrivelineRotateCommand extends Command {
 	private double m_angle = 0.0;
@@ -17,7 +17,17 @@ public class DrivelineRotateCommand extends Command {
 	private double m_i = 0.0;
 	private double m_d = 0.0;
 	private double m_f = 0.0;
-	
+	/** Rotate the robot
+	 * 
+	 * @param angle The angle to rotate
+	 * @param speed The speed of rotation
+	 * @param timeout Timeout in seconds if target not reached
+	 * @param percentTolerance Percent of tolerance of angle
+	 * @param p
+	 * @param i
+	 * @param d
+	 * @param f
+	 */
     public DrivelineRotateCommand(double angle, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
     	m_angle = angle;
     	m_maxTimeout = timeout;

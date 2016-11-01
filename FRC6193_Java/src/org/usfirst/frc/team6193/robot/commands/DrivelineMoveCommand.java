@@ -6,7 +6,8 @@ import org.usfirst.frc.team6193.robot.lib.DrivelinePIDMode;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This class will create a command that will move the robot
+ * using a PID control method. 
  */
 public class DrivelineMoveCommand extends Command {
 	private double m_distance = 0.0;

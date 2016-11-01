@@ -14,23 +14,25 @@ import edu.wpi.first.wpilibj.communication.FRCNetworkCommunicationsLibrary.tReso
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * The VM is configured to automatically run this class, and to call the
+/** Main Robot Class
+ * The Virtual Machine "VM" is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
  * documentation. If you change the name of this class or the package after
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
 public class Robot extends IterativeRobot {
-	/* Create an global static reference to the Driveline subsystem */
+	/* Static references to singleton objects */
 	public static Driveline driveline;
 	public static OI oi;
 
+	/* State variables used to determine the state the robot is in */
 	private boolean m_disabledInitialized;
 	private boolean m_autonomousInitialized;
 	private boolean m_teleopInitialized;
 	private boolean m_testInitialized;
 
+	/* Stored timestamp for loop time debugging*/
 	private double m_prevTimeStamp;
 
 	/**
@@ -54,13 +56,20 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
-
+		Scheduler.getInstance().removeAll();
+		driveline.disable();
 	}
-
+	/**
+	 * This function is called periodically while in the Disable state.
+	 * 
+	 */
 	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
+		// I see no reason to run the scheduler in Disable state
+		//Scheduler.getInstance().run();
 	}
-
+	/**
+	 * This function is called once when the robot enters the Autonomous state.
+	 */
 	public void autonomousInit() {
 		int index = (int)SmartDashboard.getNumber("AutoplayIndex", 0);
 		AutonomousCommandGroup ACG = new AutonomousCommandGroup(index);
@@ -68,18 +77,21 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called periodically during autonomous
+	 * This function is called periodically while in the Autonomous state
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
 
+	/**
+	 * This function is called once when the robot enters TeleOp state
+	 */
 	public void teleopInit() {
 
 	}
 
 	/**
-	 * This function is called periodically during operator control
+	 * This function is called periodically when the robot is in TeleOp state
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
@@ -194,6 +206,10 @@ public class Robot extends IterativeRobot {
 		return m_ds.isNewControlData();
 	}
 
+	/**
+	 * This function is used to calculate the time since the last periodic call.
+	 * Sending the looptime to the dashboard helps in debugging WIFI lost packets and FMS issues
+	 */
 	private void calculateLoopTime() {
 		// Get the current time stamp from the FPGA. FPGA is the most accurate
 		// time that can be captured

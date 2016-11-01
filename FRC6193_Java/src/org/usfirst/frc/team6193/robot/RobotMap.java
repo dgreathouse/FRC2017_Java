@@ -19,15 +19,16 @@ public class RobotMap {
     public static double DRIVELINE_TURN_SCALAR = 0.8;
     public static double DRIVELINE_ENCODER_INCHPERCNT = 0.02934;
     
-    public static double DRIVELINE_DRIVE_PID_P = 0.05;
-    public static double DRIVELINE_DRIVE_PID_I = 0.0005;
-    public static double DRIVELINE_DRIVE_PID_D = 0.05;
-    public static double DRIVELINE_DRIVE_PID_F = 0.25;
+    /* Default values to be used for driveline move and rotate*/
+    public static double DRIVELINE_MOVE_PID_P = 0.05;
+    public static double DRIVELINE_MOVE_PID_I = 0.0005;
+    public static double DRIVELINE_MOVE_PID_D = 0.05;
+    public static double DRIVELINE_MOVE_PID_F = 0.25;
     
-    public static double DRIVELINE_TURN_PID_P = 0.05;
-    public static double DRIVELINE_TURN_PID_I = 0.0005;
-    public static double DRIVELINE_TURN_PID_D = 0.05;
-    public static double DRIVELINE_TURN_PID_F = 0.25;
+    public static double DRIVELINE_ROTATE_PID_P = 0.05;
+    public static double DRIVELINE_ROTATE_PID_I = 0.0005;
+    public static double DRIVELINE_ROTATE_PID_D = 0.05;
+    public static double DRIVELINE_ROTATE_PID_F = 0.25;
     
     public static DrivelinePIDMode Driveline_PID_Mode = DrivelinePIDMode.MOVE;
 

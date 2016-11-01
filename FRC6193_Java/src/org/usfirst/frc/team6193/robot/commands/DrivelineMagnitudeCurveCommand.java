@@ -5,7 +5,8 @@ import org.usfirst.frc.team6193.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This command will drive the robot for a set time at a certain speed while curving
+ * See RobotDrive.drive for more information
  */
 public class DrivelineMagnitudeCurveCommand extends Command {
 	private double m_maxTimeout = 0.0;

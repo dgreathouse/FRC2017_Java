@@ -6,7 +6,8 @@ import org.usfirst.frc.team6193.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * This class handles the default drive command when no other command
+ * is using the Driveline. 
  */
 public class DrivelineDefaultCommand extends Command {
 
