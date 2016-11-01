@@ -26,7 +26,7 @@ public class Driveline extends PIDSubsystem {
 	
 	private ADXRS450_Gyro gyro;
 	private DrivelinePIDMode m_drivelinePIDMode;
-    // The main constructor 
+    // The main constructor for the Driveline class
     public Driveline() 
     {
     	/* Since this class was extended from PIDSubsystem and PIDSubsystem does not 
