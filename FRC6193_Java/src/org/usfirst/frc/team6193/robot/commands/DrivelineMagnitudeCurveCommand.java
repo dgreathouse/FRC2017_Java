@@ -3,6 +3,7 @@ package org.usfirst.frc.team6193.robot.commands;
 import org.usfirst.frc.team6193.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This command will drive the robot for a set time at a certain speed while curving
@@ -22,6 +23,11 @@ public class DrivelineMagnitudeCurveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	if(Robot.oi.isPIDTuningDrivelineMagCurve){
+    		m_maxTimeout = SmartDashboard.getNumber("PIDDrivelineMagCurveTimeout",0.0);
+    		m_magnitude = SmartDashboard.getNumber("PIDDrivelineMagCurveMagnitude",0.0);
+    		m_curve = SmartDashboard.getNumber("PIDDrivelineMagCurveCurve",0.0);
+    	}
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {

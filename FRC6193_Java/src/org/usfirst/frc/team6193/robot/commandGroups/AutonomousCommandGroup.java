@@ -21,7 +21,14 @@ public class AutonomousCommandGroup extends CommandGroup {
     		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0, 0));
     		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 45, 2));	
     		break;
-    	case 1:
+    	case 1: // Move
+    		addSequential(new DrivelineMoveCommand(48, 0.85, 5, 0.5, 1.0, 0, 0, 0));
+    		break;
+    	case 2: // Rotate
+    		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0, 0));
+    		break;
+    	case 3: // Magnitude and Curve
+    		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 45, 2));	
     		break;
     	}
 

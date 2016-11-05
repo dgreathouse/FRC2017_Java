@@ -4,6 +4,7 @@ import org.usfirst.frc.team6193.robot.Robot;
 import org.usfirst.frc.team6193.robot.lib.DrivelinePIDMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class will create a command that will move the robot
@@ -44,7 +45,17 @@ public class DrivelineMoveCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveline.setInputRange(-m_distance, m_distance);
+    	if(Robot.oi.isPIDTuningDrivelineMove){
+    		m_distance = SmartDashboard.getNumber("DrivelineMovePIDDistance", 0.0);
+    		m_speed = SmartDashboard.getNumber("DrivelineMovePIDSpeed", 0.0);
+    		m_percentTolerance = SmartDashboard.getNumber("DrivelineMovePIDPercentTolerance", 0.0);
+    		m_maxTimeout = SmartDashboard.getNumber("DrivelineMovePIDTimeout", 0.0);
+    		m_p = SmartDashboard.getNumber("DrivelineMovePID/P", 0.0);
+    		m_i = SmartDashboard.getNumber("DrivelineMovePID/I", 0.0);
+    		m_d = SmartDashboard.getNumber("DrivelineMovePID/D", 0.0);
+    	}
+    	// Input Range on a move starts at 0. The driveline resets the Encoders in setPIDMode
+    	Robot.driveline.setInputRange(0.0, m_distance);
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
     	Robot.driveline.setSetpoint(m_distance);

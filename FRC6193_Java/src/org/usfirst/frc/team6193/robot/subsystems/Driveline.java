@@ -128,12 +128,13 @@ public class Driveline extends PIDSubsystem {
      */
     public void setPIDMode(DrivelinePIDMode mode, double p, double i, double d, double f)
     {
-    	m_drivelinePIDMode = mode;
-    	getPIDController().reset();
-    	resetDrivelineDistance();
-    	getPIDController().setPID(p,i,d,f);
-    	getPIDController().setToleranceBuffer(4);
-    	enable();
+    	m_drivelinePIDMode = mode;					// Set the local PID Mode value
+    	getPIDController().reset();					// Clear any PIDs that might be running on the driveline
+    	resetDrivelineDistance();					// Reset Driveline distance to 0.0. All Commands assume starting at 0.0
+    	gyro.reset();								// Reset Gyro so the heading is 0.0. All repeated Rotate commands start from current as 0.0
+    	getPIDController().setPID(p,i,d,f);			// Set the PID controller PID values
+    	getPIDController().setToleranceBuffer(4);	// Use a average buffer size of 4 to calculate OnTarget
+    	enable();									// Enable the PID to start running.
     }
     /** Get the move value from the joystick
      * 

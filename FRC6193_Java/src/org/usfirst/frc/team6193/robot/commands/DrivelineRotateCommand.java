@@ -4,6 +4,7 @@ import org.usfirst.frc.team6193.robot.Robot;
 import org.usfirst.frc.team6193.robot.lib.DrivelinePIDMode;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class will rotate the robot using a PID control method.
@@ -43,7 +44,16 @@ public class DrivelineRotateCommand extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.driveline.setInputRange(-m_angle, m_angle);
+    	if(Robot.oi.isPIDTuningDrivelineRotate){
+    		m_angle = SmartDashboard.getNumber("DrivelineRotatePIDAngle", 0.0);
+    		m_speed = SmartDashboard.getNumber("DrivelineRotatePIDSpeed", 0.0);
+    		m_percentTolerance = SmartDashboard.getNumber("DrivelineRotatePIDPercentTolerance", 0.0);
+    		m_maxTimeout = SmartDashboard.getNumber("DrivelineRotatePIDTimeout", 0.0);
+    		m_p = SmartDashboard.getNumber("DrivelineRotatePID/P", 0.0);
+    		m_i = SmartDashboard.getNumber("DrivelineRotatePID/I", 0.0);
+    		m_d = SmartDashboard.getNumber("DrivelineRotatePID/D", 0.0);
+    	}
+    	Robot.driveline.setInputRange(0.0, m_angle);
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
     	Robot.driveline.setSetpoint(m_angle);
