@@ -46,13 +46,13 @@ public class DrivelineMoveCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(Robot.oi.isPIDTuningDrivelineMove){
-    		m_distance = SmartDashboard.getNumber("DrivelineMovePIDDistance", 0.0);
+    		m_distance = SmartDashboard.getNumber("DrivelineMovePID/setpoint", 0.0);
     		m_speed = SmartDashboard.getNumber("DrivelineMovePIDSpeed", 0.0);
     		m_percentTolerance = SmartDashboard.getNumber("DrivelineMovePIDPercentTolerance", 0.0);
     		m_maxTimeout = SmartDashboard.getNumber("DrivelineMovePIDTimeout", 0.0);
-    		m_p = SmartDashboard.getNumber("DrivelineMovePID/P", 0.0);
-    		m_i = SmartDashboard.getNumber("DrivelineMovePID/I", 0.0);
-    		m_d = SmartDashboard.getNumber("DrivelineMovePID/D", 0.0);
+    		m_p = SmartDashboard.getNumber("DrivelineMovePID/p", 0.0);
+    		m_i = SmartDashboard.getNumber("DrivelineMovePID/i", 0.0);
+    		m_d = SmartDashboard.getNumber("DrivelineMovePID/d", 0.0);
     	}
     	// Input Range on a move starts at 0. The driveline resets the Encoders in setPIDMode
     	Robot.driveline.setInputRange(0.0, m_distance);
@@ -69,6 +69,8 @@ public class DrivelineMoveCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	double t = timeSinceInitialized();
+    	boolean onTarget = Robot.driveline.onTarget();
     	if(timeSinceInitialized() > m_maxTimeout || Robot.driveline.onTarget()){
     		return true;
     	}else {
