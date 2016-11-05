@@ -40,21 +40,29 @@ public class Driveline extends PIDSubsystem {
 		m_rightRearMotorController = new CANTalon(RobotMap.DRIVELINE_RIGHT_REAR_MOTORCONTROLLER_CANID);
 		m_rightFrontMotorController = new CANTalon(RobotMap.DRIVELINE_RIGHT_FRONT_MOTORCONTROLLER_CANID);
 		
-		// Create a RobotDrive object with the new motor control objects
-		m_robotDrive = new RobotDrive(m_leftRearMotorController, m_leftFrontMotorController, m_rightRearMotorController,m_rightFrontMotorController);
-
 		// Invert the motors since all motors were wired backwards
 		m_leftFrontMotorController.setInverted(true);
 		m_leftRearMotorController.setInverted(true);
 		m_rightFrontMotorController.setInverted(true);
 		m_rightRearMotorController.setInverted(true);
 		
+		// Set the encoder counts per revolution
+		//m_leftFrontMotorController.configEncoderCodesPerRev(20);
+		m_rightFrontMotorController.configEncoderCodesPerRev(20);
+		
+		// Create a RobotDrive object with the new motor control objects
+		m_robotDrive = new RobotDrive(m_leftRearMotorController, m_leftFrontMotorController, m_rightRearMotorController,m_rightFrontMotorController);
+		m_robotDrive.setSafetyEnabled(false);
+		
+		//m_leftFrontMotorController.setEncPosition(0);
+		m_rightFrontMotorController.setEncPosition(0);
+		
+		
+		m_drivelinePIDMode = DrivelinePIDMode.MOVE; 
+		
 		// Create a new Gyro to get angle.
 		// This is the gyro plugged into the SPI port in the top right of the RoboRIO
 		gyro = new ADXRS450_Gyro();
-		
-		// Set the default driveline PID mode to be MOVE
-		m_drivelinePIDMode = DrivelinePIDMode.MOVE; 
     }
     
     public void initDefaultCommand() {
@@ -91,7 +99,7 @@ public class Driveline extends PIDSubsystem {
 	 */
     protected double returnPIDInput() {
     	if(m_drivelinePIDMode == DrivelinePIDMode.MOVE){
-    		return m_rightFrontMotorController.getEncPosition() * RobotMap.DRIVELINE_ENCODER_INCHPERCNT;
+    		return getDrivelineDistance();
     	}else {
     		gyro.getAngle();
     	}
@@ -144,5 +152,17 @@ public class Driveline extends PIDSubsystem {
 	private void resetDrivelineDistance()
 	{
 		m_rightFrontMotorController.setPosition(0.0);
+	}
+	private double getDrivelineDistance()
+	{
+		return m_rightFrontMotorController.getEncPosition() * RobotMap.DRIVELINE_ENCODER_INCHPERCNT;
+	}
+	private double getDrivelineSpeed(){
+		return m_leftFrontMotorController.getSpeed();
+	}
+	private double getDrivelineCurrent()
+	{
+		return m_rightFrontMotorController.getOutputCurrent() + m_leftFrontMotorController.getOutputCurrent()
+				+ m_rightRearMotorController.getOutputCurrent() + m_leftRearMotorController.getOutputCurrent();
 	}
 }
