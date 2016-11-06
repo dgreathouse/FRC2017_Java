@@ -18,7 +18,6 @@ public class DrivelineMoveCommand extends Command {
 	private double m_p = 0.0;
 	private double m_i = 0.0;
 	private double m_d = 0.0;
-	private double m_f = 0.0;
 	/**
 	 * 
 	 * @param distance Distance to drive in inches
@@ -28,9 +27,8 @@ public class DrivelineMoveCommand extends Command {
 	 * @param p Proportional
 	 * @param i Integral
 	 * @param d Derivative
-	 * @param f Feed Forward
 	 */
-    public DrivelineMoveCommand(double distance, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
+    public DrivelineMoveCommand(double distance, double speed, double timeout, double percentTolerance, double p, double i, double d) {
     	m_distance = distance;
     	m_maxTimeout = timeout;
     	m_speed = speed;
@@ -38,28 +36,34 @@ public class DrivelineMoveCommand extends Command {
     	m_p = p;
     	m_i = i;
     	m_d = d;
-    	m_f = f;
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveline);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	// If we want to get the PID values from the dashboard, set the value to true in OI.java
     	if(Robot.oi.isPIDTuningDrivelineMove){
-    		m_distance = SmartDashboard.getNumber("DrivelineMovePIDDistance", 0.0);
     		m_speed = SmartDashboard.getNumber("DrivelineMovePIDSpeed", 0.0);
     		m_percentTolerance = SmartDashboard.getNumber("DrivelineMovePIDPercentTolerance", 0.0);
     		m_maxTimeout = SmartDashboard.getNumber("DrivelineMovePIDTimeout", 0.0);
-    		m_p = SmartDashboard.getNumber("DrivelineMovePID/P", 0.0);
-    		m_i = SmartDashboard.getNumber("DrivelineMovePID/I", 0.0);
-    		m_d = SmartDashboard.getNumber("DrivelineMovePID/D", 0.0);
+    		m_p = SmartDashboard.getNumber("DrivelineMovePID/p", 0.0);
+    		m_i = SmartDashboard.getNumber("DrivelineMovePID/i", 0.0);
+    		m_d = SmartDashboard.getNumber("DrivelineMovePID/d", 0.0);
+    		m_distance = SmartDashboard.getNumber("DrivelineMovePID/setpoint", 0.0);
+    		SmartDashboard.putNumber("DrivelineDistance", Robot.driveline.getDrivelineDistance());
+    		
     	}
     	// Input Range on a move starts at 0. The driveline resets the Encoders in setPIDMode
-    	Robot.driveline.setInputRange(0.0, m_distance);
+    	if(m_distance >= 0.0){
+    		Robot.driveline.setInputRange(0.0, m_distance);
+    	}else {
+    		Robot.driveline.setInputRange(m_distance, 0.0);
+    	}
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
     	Robot.driveline.setSetpoint(m_distance);
-    	Robot.driveline.setPIDMode(DrivelinePIDMode.MOVE, m_p, m_i, m_d, m_f);
+    	Robot.driveline.setPIDMode(DrivelinePIDMode.MOVE, m_p, m_i, m_d);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -70,6 +74,7 @@ public class DrivelineMoveCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(timeSinceInitialized() > m_maxTimeout || Robot.driveline.onTarget()){
+    		SmartDashboard.putNumber("DrivelineMoveTime", timeSinceInitialized());
     		return true;
     	}else {
     		return false;

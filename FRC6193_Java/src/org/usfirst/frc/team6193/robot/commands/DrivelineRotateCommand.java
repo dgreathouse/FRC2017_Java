@@ -17,7 +17,6 @@ public class DrivelineRotateCommand extends Command {
 	private double m_p = 0.0;
 	private double m_i = 0.0;
 	private double m_d = 0.0;
-	private double m_f = 0.0;
 	/** Rotate the robot
 	 * 
 	 * @param angle The angle to rotate
@@ -27,9 +26,8 @@ public class DrivelineRotateCommand extends Command {
 	 * @param p
 	 * @param i
 	 * @param d
-	 * @param f
 	 */
-    public DrivelineRotateCommand(double angle, double speed, double timeout, double percentTolerance, double p, double i, double d, double f) {
+    public DrivelineRotateCommand(double angle, double speed, double timeout, double percentTolerance, double p, double i, double d) {
     	m_angle = angle;
     	m_maxTimeout = timeout;
     	m_speed = speed;
@@ -37,7 +35,7 @@ public class DrivelineRotateCommand extends Command {
     	m_p = p;
     	m_i = i;
     	m_d = d;
-    	m_f = f;
+
         // Use requires() here to declare subsystem dependencies
         requires(Robot.driveline);
     }
@@ -45,19 +43,24 @@ public class DrivelineRotateCommand extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	if(Robot.oi.isPIDTuningDrivelineRotate){
-    		m_angle = SmartDashboard.getNumber("DrivelineRotatePIDAngle", 0.0);
     		m_speed = SmartDashboard.getNumber("DrivelineRotatePIDSpeed", 0.0);
     		m_percentTolerance = SmartDashboard.getNumber("DrivelineRotatePIDPercentTolerance", 0.0);
     		m_maxTimeout = SmartDashboard.getNumber("DrivelineRotatePIDTimeout", 0.0);
-    		m_p = SmartDashboard.getNumber("DrivelineRotatePID/P", 0.0);
-    		m_i = SmartDashboard.getNumber("DrivelineRotatePID/I", 0.0);
-    		m_d = SmartDashboard.getNumber("DrivelineRotatePID/D", 0.0);
+    		m_p = SmartDashboard.getNumber("DrivelineRotatePID/p", 0.0);
+    		m_i = SmartDashboard.getNumber("DrivelineRotatePID/i", 0.0);
+    		m_d = SmartDashboard.getNumber("DrivelineRotatePID/d", 0.0);
+    		m_angle = SmartDashboard.getNumber("DrivelineRotatePID/setpoint", 0.0);
     	}
-    	Robot.driveline.setInputRange(0.0, m_angle);
+    	if(m_angle >= 0){
+    		Robot.driveline.setInputRange(0.0, m_angle);
+    	}else {
+    		Robot.driveline.setInputRange(m_angle, 0.0);
+    	}
+    	
     	Robot.driveline.setOutputRange(-m_speed,m_speed);
     	Robot.driveline.setPercentTolerance(m_percentTolerance);
     	Robot.driveline.setSetpoint(m_angle);
-    	Robot.driveline.setPIDMode(DrivelinePIDMode.ROTATE, m_p, m_i, m_d, m_f);
+    	Robot.driveline.setPIDMode(DrivelinePIDMode.ROTATE, m_p, m_i, m_d);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -67,6 +70,7 @@ public class DrivelineRotateCommand extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(timeSinceInitialized() > m_maxTimeout || Robot.driveline.onTarget()){
+    		SmartDashboard.putNumber("DrivelineRotateTime", timeSinceInitialized());
     		return true;
     	}else {
     		return false;

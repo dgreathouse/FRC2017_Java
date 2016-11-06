@@ -17,18 +17,18 @@ public class AutonomousCommandGroup extends CommandGroup {
     public  AutonomousCommandGroup(int index) {
     	switch(index){
     	case 0: // Move 4', Rotate 45 Degrees, Drive a curve for 2 seconds.
-    		addSequential(new DrivelineMoveCommand(48, 0.85, 5, 0.5, 1.0, 0, 0, 0));
-    		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0, 0));
-    		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 45, 2));	
+//    		addSequential(new DrivelineMoveCommand(48, 0.85, 5, 0.5, 1.0, 0, 0, 0));
+//    		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0, 0));
+//    		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 45, 2));	
     		break;
     	case 1: // Move
-    		addSequential(new DrivelineMoveCommand(48, 0.85, 5, 0.5, 1.0, 0, 0, 0));
+    		addSequential(new DrivelineMoveCommand(106.5, 0.85, 2.5, 0.25, 0.25, 0.025, 0.07));
     		break;
     	case 2: // Rotate
-    		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0, 0));
+    		addSequential(new DrivelineRotateCommand(45, 0.85, 2, 1, 1, 0, 0));
     		break;
     	case 3: // Magnitude and Curve
-    		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 45, 2));	
+    		addSequential(new DrivelineMagnitudeCurveCommand(0.75, 0.45, 2));	
     		break;
     	}
 

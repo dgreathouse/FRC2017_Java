@@ -58,6 +58,10 @@ public class Robot extends IterativeRobot {
 	public void disabledInit() {
 		Scheduler.getInstance().removeAll();
 		driveline.disable();
+		SmartDashboard.putNumber("DrivelineMovePID/p", 0.1);
+		SmartDashboard.putNumber("DrivelineMovePID/i", 0.0);
+		SmartDashboard.putNumber("DrivelineMovePID/d", 0.0);
+		SmartDashboard.putNumber("DrivelineMovePID/setpoint", 179);
 	}
 	/**
 	 * This function is called periodically while in the Disable state.

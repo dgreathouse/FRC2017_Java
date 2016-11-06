@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class is responsible for all calls that will eventually make the
@@ -57,8 +58,6 @@ public class Driveline extends PIDSubsystem {
 		//m_leftFrontMotorController.setEncPosition(0);
 		m_rightFrontMotorController.setEncPosition(0);
 		
-		
-		
 		m_drivelinePIDMode = DrivelinePIDMode.MOVE; 
 		
 		// Create a new Gyro to get angle.
@@ -75,7 +74,11 @@ public class Driveline extends PIDSubsystem {
      * Default scalar on rotate is applied to stop the robot from rotating quickly. 
      */
 	public void Drive() {
+		SmartDashboard.putNumber("DrivelineDistance", getDrivelineDistance());
 		m_robotDrive.arcadeDrive(getY(Robot.oi.stickXbox), Robot.oi.stickXbox.getX() * RobotMap.DRIVELINE_TURN_SCALAR);
+		SmartDashboard.putNumber("DrivelineRotateOutput", Robot.oi.stickXbox.getX());
+		SmartDashboard.putNumber("DrivelineMoveOutput", getY(Robot.oi.stickXbox));
+		SmartDashboard.putNumber("DrivelineAngle", gyro.getAngle());
 	}
 	/** Drive the robot with move and rotate commands in arcadeDrive mode
 	 * 
@@ -83,6 +86,10 @@ public class Driveline extends PIDSubsystem {
 	 * @param rotate
 	 */
 	public void Drive(double move, double rotate) {
+		SmartDashboard.putNumber("DrivelineDistance", getDrivelineDistance());
+		SmartDashboard.putNumber("DrivelineAngle", gyro.getAngle());
+		SmartDashboard.putNumber("DrivelineRotateOutput", rotate);
+		SmartDashboard.putNumber("DrivelineMoveOutput", move);
 		m_robotDrive.arcadeDrive(move,rotate);
 	}
 	/** Drive the robot at a set magnitude and curve
@@ -102,9 +109,9 @@ public class Driveline extends PIDSubsystem {
     	if(m_drivelinePIDMode == DrivelinePIDMode.MOVE){
     		return getDrivelineDistance();
     	}else {
-    		gyro.getAngle();
+    		return gyro.getAngle();
     	}
-    	return 0.0;
+    
     }
     /** Use the PIDController output value to drive the robot.
      * Once the PIDController has calculated a value the output must be 
@@ -113,7 +120,7 @@ public class Driveline extends PIDSubsystem {
      */
     protected void usePIDOutput(double output) {
     	if(m_drivelinePIDMode == DrivelinePIDMode.MOVE){
-    		Drive(output,0.0);
+    		Drive(-output,0.0);
     	}else {
     		Drive(0.0,output);
     	}
@@ -126,14 +133,15 @@ public class Driveline extends PIDSubsystem {
      * @param d
      * @param f
      */
-    public void setPIDMode(DrivelinePIDMode mode, double p, double i, double d, double f)
+    public void setPIDMode(DrivelinePIDMode mode, double p, double i, double d)
     {
+    
     	m_drivelinePIDMode = mode;					// Set the local PID Mode value
     	getPIDController().reset();					// Clear any PIDs that might be running on the driveline
     	resetDrivelineDistance();					// Reset Driveline distance to 0.0. All Commands assume starting at 0.0
     	gyro.reset();								// Reset Gyro so the heading is 0.0. All repeated Rotate commands start from current as 0.0
-    	getPIDController().setPID(p,i,d,f);			// Set the PID controller PID values
-    	getPIDController().setToleranceBuffer(4);	// Use a average buffer size of 4 to calculate OnTarget
+    	getPIDController().setPID(p,i,d);			// Set the PID controller PID values
+    	getPIDController().setToleranceBuffer(24);	// Use a average buffer size of 4 to calculate OnTarget
     	enable();									// Enable the PID to start running.
     }
     /** Get the move value from the joystick
@@ -155,7 +163,7 @@ public class Driveline extends PIDSubsystem {
 	{
 		m_rightFrontMotorController.setPosition(0.0);
 	}
-	private double getDrivelineDistance()
+	public double getDrivelineDistance()
 	{
 		return m_rightFrontMotorController.getEncPosition() * RobotMap.DRIVELINE_ENCODER_INCHPERCNT;
 	}

@@ -11,9 +11,9 @@ import edu.wpi.first.wpilibj.Joystick;
 public class OI {
 	public Joystick stickXbox = new Joystick(0);
 	
-	public boolean isPIDTuningDrivelineMove = true;
+	public boolean isPIDTuningDrivelineMove = false;
 	public boolean isPIDTuningDrivelineRotate = false;
-	public boolean isPIDTuningDrivelineMagCurve = false;
+	public boolean isPIDTuningDrivelineMagCurve = true;
 	
 	
 }

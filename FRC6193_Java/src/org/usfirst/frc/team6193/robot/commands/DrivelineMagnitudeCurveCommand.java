@@ -31,15 +31,15 @@ public class DrivelineMagnitudeCurveCommand extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveline.DriveMagnitudeCurve(m_magnitude, m_curve);
+    	Robot.driveline.DriveMagnitudeCurve(-m_magnitude, m_curve);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	if(timeSinceInitialized() >= m_maxTimeout){
-    		return false;
-    	}else {
     		return true;
+    	}else {
+    		return false;
     	}
     }
 
