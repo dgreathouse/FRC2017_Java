@@ -14,7 +14,6 @@ public class OI {
 	public boolean isPIDTuningDrivelineMove = false;
 	public boolean isPIDTuningDrivelineRotate = false;
 	public boolean isPIDTuningDrivelineMagCurve = false;
-	
-	
+
 }
 
