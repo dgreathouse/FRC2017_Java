@@ -2,7 +2,9 @@
 package org.usfirst.frc.team6193.robot;
 
 import org.usfirst.frc.team6193.robot.commandGroups.AutonomousCommandGroup;
+import org.usfirst.frc.team6193.robot.subsystems.Arm;
 import org.usfirst.frc.team6193.robot.subsystems.Driveline;
+import org.usfirst.frc.team6193.robot.subsystems.Spinners;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
@@ -24,6 +26,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	/* Static references to singleton objects */
 	public static Driveline driveline;
+	public static Arm arm;
+	public static Spinners spinners;
 	public static OI oi;
 
 	/* State variables used to determine the state the robot is in */

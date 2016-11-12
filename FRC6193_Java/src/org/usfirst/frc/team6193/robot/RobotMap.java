@@ -15,6 +15,10 @@ public class RobotMap {
     public static int DRIVELINE_LEFT_REAR_MOTORCONTROLLER_CANID = 6;
     public static int DRIVELINE_RIGHT_FRONT_MOTORCONTROLLER_CANID = 11;
     public static int DRIVELINE_RIGHT_REAR_MOTORCONTROLLER_CANID = 10;
+  
+    public static int ARM_MOTORCONTROLLER_CANID = 6;
+    public static int LEFTSPINNER_MOTORCONTROLLER_CANID = 11;
+    public static int RIGHTSPINNER_MOTORCONTROLLER_CANID = 10;
     
     public static double DRIVELINE_TURN_SCALAR = 0.8;
     public static double DRIVELINE_ENCODER_INCHPERCNT = 0.02934;
