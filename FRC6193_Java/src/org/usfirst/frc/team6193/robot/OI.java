@@ -13,7 +13,7 @@ public class OI {
 	
 	public boolean isPIDTuningDrivelineMove = false;
 	public boolean isPIDTuningDrivelineRotate = false;
-	public boolean isPIDTuningDrivelineMagCurve = true;
+	public boolean isPIDTuningDrivelineMagCurve = false;
 	
 	
 }
