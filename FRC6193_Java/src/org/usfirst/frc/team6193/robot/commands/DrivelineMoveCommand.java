@@ -19,7 +19,6 @@ public class DrivelineMoveCommand extends Command {
 	private double m_i = 0.0;
 	private double m_d = 0.0;
 	/**
-	 * 
 	 * @param distance Distance to drive in inches
 	 * @param speed The speed to drive at from -1.0 to 1.0
 	 * @param timeout A timeout if distance not reached
