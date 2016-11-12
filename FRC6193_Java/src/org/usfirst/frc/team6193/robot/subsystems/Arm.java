@@ -41,6 +41,7 @@ public class Arm extends PIDSubsystem {
 	public void Move(double armSpeed){
 		//armSpeed = SpeedLimiter.limit (armSpeed);
 		armSpeed = limitArmAngle (armSpeed);
+		m_ArmMotorController.set(armSpeed);
 		//RobotMap.armController.set (armSpeed);
 		// TODO Auto-generated method stub
 		
